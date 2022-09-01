@@ -1,0 +1,39 @@
+{
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/jeffposnick/magic-realism-dream-bot/issues"
+  },
+  "description": "",
+  "devDependencies": {
+    "@grpc/grpc-js": "^1.6.12",
+    "@grpc/proto-loader": "^0.7.2",
+    "@types/mime-types": "^2.1.1",
+    "mime-types": "^2.1.35",
+    "tempy": "^3.0.0",
+    "tsm": "^2.2.2"
+  },
+  "homepage": "https://github.com/jeffposnick/magic-realism-dream-bot#readme",
+  "keywords": [],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "magic-realism-dream-bot",
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": false,
+    "printWidth": 80,
+    "quoteProps": "consistent",
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "useTabs": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeffposnick/magic-realism-dream-bot.git"
+  },
+  "scripts": {
+    "generate": "tsm index.ts"
+  },
+  "type": "module",
+  "version": "1.0.0"
+}
