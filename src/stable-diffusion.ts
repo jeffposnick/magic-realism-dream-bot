@@ -11,15 +11,16 @@ const ADDRESS = 'grpc.stability.ai:443';
 const HEIGHT = 512;
 const MAX_RANDOM_SEED = 4294967295;
 const PROTO_FILE = './proto/generation.proto';
-const WIDTH = 512;
 const STYLES = [
-	'New Objectivist',
-	'Latin American folk art',
 	'Futurism',
+	'Latin American folk art',
 	'Man Ray',
-	'Salvadore Dali',
-	'Native American folk art',
+	'New Objectivist',
+	'Outsider art'
+	'Salvador Dali',
+	'Soviet Futurism',
 ];
+const WIDTH = 512;
 
 interface GenerateImageReturn {
 	imageBuffer: Buffer;

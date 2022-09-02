@@ -7,8 +7,8 @@ const MAGICAL_REALISM_TWITTER_ID = '3701125272';
 const TWEET_URL_PREFIX = 'https://twitter.com/MagicRealismBot/status/';
 
 const client = new TwitterApi({
-	accessSecret: process.env.TWITTER_ACCESS_SECRET,
-	accessToken: process.env.TWITTER_ACCESS_TOKEN,
+	accessSecret: process.env.TWITTER_ACCESS_SECRET!,
+	accessToken: process.env.TWITTER_ACCESS_TOKEN!,
 	appKey: process.env.TWITTER_APP_KEY!,
 	appSecret: process.env.TWITTER_APP_SECRET!,
 }).readWrite;
