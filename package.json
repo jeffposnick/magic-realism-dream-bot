@@ -18,7 +18,7 @@
   "homepage": "https://github.com/jeffposnick/magic-realism-dream-bot#readme",
   "keywords": [],
   "license": "MIT",
-  "main": "index.js",
+  "main": "src/index.ts",
   "name": "magic-realism-dream-bot",
   "prettier": {
     "arrowParens": "always",
@@ -30,6 +30,7 @@
     "trailingComma": "all",
     "useTabs": true
   },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jeffposnick/magic-realism-dream-bot.git"
