@@ -16,7 +16,7 @@ const STYLES = [
 	'Latin American folk art',
 	'Man Ray',
 	'New Objectivist',
-	'Outsider art'
+	'Outsider art',
 	'Salvador Dali',
 	'Soviet Futurism',
 ];
