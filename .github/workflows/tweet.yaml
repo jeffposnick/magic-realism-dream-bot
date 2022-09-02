@@ -1,7 +1,7 @@
 name: Twitter Bot
 on:
   schedule:
-    - cron: '34 0/4 * * *'
+    - cron: '34 0/1 * * *'
 env:
   STABLE_DIFFUSION_KEY: ${{ secrets.STABLE_DIFFUSION_KEY }}
   TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
