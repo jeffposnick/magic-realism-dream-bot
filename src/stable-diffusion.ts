@@ -1,5 +1,5 @@
-import {Answer__Output} from './proto/gooseai/Answer';
-import {ProtoGrpcType} from './proto/generation';
+import {Answer__Output} from '../proto/gooseai/Answer';
+import {ProtoGrpcType} from '../proto/generation';
 import {randomUUID} from 'crypto';
 import * as dotenv from 'dotenv';
 import grpc from '@grpc/grpc-js';
@@ -55,6 +55,7 @@ export function generateImage(prompt: string) {
 	const serviceClient = getServiceClient();
 
 	const stream = serviceClient.generate({
+		classifier: {},
 		image: {
 			height: HEIGHT,
 			parameters: [{scaledStep: 0, sampler: {cfgScale: 7.0}}],

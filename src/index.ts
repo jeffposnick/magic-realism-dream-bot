@@ -1,5 +1,5 @@
 import {getLatestTweet, sendTweet} from './twitter';
-import {generateImage} from './generate';
+import {generateImage} from './stable-diffusion';
 
 const latestTweet = await getLatestTweet();
 const {imageBuffer, mimeType} = await generateImage(latestTweet.full_text!);

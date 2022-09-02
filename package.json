@@ -33,7 +33,7 @@
     "url": "git+https://github.com/jeffposnick/magic-realism-dream-bot.git"
   },
   "scripts": {
-    "tweet": "tsm index.ts"
+    "tweet": "tsm src/index.ts"
   },
   "type": "module",
   "version": "1.0.0"
