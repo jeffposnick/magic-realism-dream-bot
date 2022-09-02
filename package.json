@@ -3,16 +3,18 @@
   "bugs": {
     "url": "https://github.com/jeffposnick/magic-realism-dream-bot/issues"
   },
-  "description": "",
-  "devDependencies": {
+  "dependencies": {
     "@grpc/grpc-js": "^1.6.12",
     "@grpc/proto-loader": "^0.7.2",
     "@types/mime-types": "^2.1.1",
     "dotenv": "^16.0.2",
+    "loglevel": "^1.8.0",
+    "loglevel-plugin-prefix": "^0.8.4",
     "mime-types": "^2.1.35",
     "tsm": "^2.2.2",
     "twitter-api-v2": "^1.12.5"
   },
+  "description": "",
   "homepage": "https://github.com/jeffposnick/magic-realism-dream-bot#readme",
   "keywords": [],
   "license": "MIT",
