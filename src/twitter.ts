@@ -41,8 +41,10 @@ export async function sendTweet(
 	imageBuffer: Buffer,
 	mimeType: string,
 	tweetId: string,
+	prompt: string,
 ) {
 	const mediaId = await client.v1.uploadMedia(imageBuffer, {mimeType});
+	await client.v1.createMediaMetadata(mediaId, {alt_text: {text: prompt}});
 	await client.v1.tweet(tweetIdToURL(tweetId), {
 		media_ids: mediaId,
 	});
