@@ -8,9 +8,10 @@
     "@grpc/grpc-js": "^1.6.12",
     "@grpc/proto-loader": "^0.7.2",
     "@types/mime-types": "^2.1.1",
+    "dotenv": "^16.0.2",
     "mime-types": "^2.1.35",
-    "tempy": "^3.0.0",
-    "tsm": "^2.2.2"
+    "tsm": "^2.2.2",
+    "twitter-api-v2": "^1.12.5"
   },
   "homepage": "https://github.com/jeffposnick/magic-realism-dream-bot#readme",
   "keywords": [],
@@ -32,7 +33,7 @@
     "url": "git+https://github.com/jeffposnick/magic-realism-dream-bot.git"
   },
   "scripts": {
-    "generate": "tsm index.ts"
+    "tweet": "tsm index.ts"
   },
   "type": "module",
   "version": "1.0.0"
