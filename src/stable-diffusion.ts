@@ -10,13 +10,27 @@ dotenv.config();
 const ADDRESS = 'grpc.stability.ai:443';
 const HEIGHT = 512;
 const MAX_RANDOM_SEED = 4294967295;
-const PROMPT_PREFIX = 'A Latin American folk art paining of ';
 const PROTO_FILE = './proto/generation.proto';
 const WIDTH = 512;
+const STYLES = [
+	'New Objectivist',
+	'Latin American folk art',
+	'Futurism',
+	'Man Ray',
+	'Salvadore Dali',
+	'Native American folk art',
+];
 
 interface GenerateImageReturn {
 	imageBuffer: Buffer;
 	mimeType: string;
+	prompt: string;
+}
+
+function generateFullPrompt(prompt: string) {
+	const index = Math.floor(Math.random() * STYLES.length);
+	const style = STYLES[index];
+	return `A ${style} painting of ${prompt}`;
 }
 
 function getServiceClient() {
@@ -51,8 +65,9 @@ function getServiceClient() {
 	return new pkg.gooseai.GenerationService(ADDRESS, channelCredentials);
 }
 
-export function generateImage(prompt: string) {
+export function generateImage(partialPrompt: string) {
 	const serviceClient = getServiceClient();
+	const prompt = generateFullPrompt(partialPrompt);
 
 	const stream = serviceClient.generate({
 		classifier: {},
@@ -66,7 +81,7 @@ export function generateImage(prompt: string) {
 			width: WIDTH,
 		},
 		engineId: 'stable-diffusion-v1',
-		prompt: [{text: PROMPT_PREFIX + prompt}],
+		prompt: [{text: prompt}],
 		requestId: randomUUID(),
 	});
 
@@ -74,7 +89,11 @@ export function generateImage(prompt: string) {
 		stream.on('data', (response: Answer__Output) => {
 			for (const artifact of response.artifacts) {
 				if (artifact.type === 'ARTIFACT_IMAGE' && artifact.data === 'binary') {
-					resolve({imageBuffer: artifact.binary!, mimeType: artifact.mime});
+					resolve({
+						prompt,
+						imageBuffer: artifact.binary!,
+						mimeType: artifact.mime,
+					});
 				}
 			}
 		});

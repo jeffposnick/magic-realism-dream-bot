@@ -12,8 +12,10 @@ log.info(`Starting up...`);
 const latestTweet = await getTweetIfNew();
 if (latestTweet) {
 	log.info(`Latest tweet: ${latestTweet.full_text}`);
-	const {imageBuffer, mimeType} = await generateImage(latestTweet.full_text!);
-	log.info(`Generated image.`);
+	const {imageBuffer, mimeType, prompt} = await generateImage(
+		latestTweet.full_text!,
+	);
+	log.info(`Generated image from prompt: ${prompt}.`);
 	await sendTweet(imageBuffer, mimeType, latestTweet.id_str);
 	log.info(`Posted tweet.`);
 } else {
