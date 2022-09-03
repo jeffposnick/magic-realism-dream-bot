@@ -86,7 +86,7 @@ export function generateImage(partialPrompt: string) {
 		requestId: randomUUID(),
 	});
 
-	return new Promise<GenerateImageReturn>((resolve) => {
+	return new Promise<GenerateImageReturn>((resolve, reject) => {
 		stream.on('data', (response: Answer__Output) => {
 			for (const artifact of response.artifacts) {
 				if (artifact.type === 'ARTIFACT_IMAGE' && artifact.data === 'binary') {
@@ -98,5 +98,7 @@ export function generateImage(partialPrompt: string) {
 				}
 			}
 		});
+
+		stream.on('error', (err) => reject(err));
 	});
 }
