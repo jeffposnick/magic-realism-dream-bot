@@ -1,4 +1,4 @@
-# magic-realism-dream-bot
+# Illustrated Magical Realism Bot
 
 ## Follow the bot on Twitter
 
