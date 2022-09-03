@@ -90,11 +90,15 @@ export function generateImage(partialPrompt: string) {
 		stream.on('data', (response: Answer__Output) => {
 			for (const artifact of response.artifacts) {
 				if (artifact.type === 'ARTIFACT_IMAGE' && artifact.data === 'binary') {
-					resolve({
+					return resolve({
 						prompt,
 						imageBuffer: artifact.binary!,
 						mimeType: artifact.mime,
 					});
+				}
+
+				if (artifact.text) {
+					return reject(artifact.text);
 				}
 			}
 		});
