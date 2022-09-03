@@ -98,7 +98,7 @@ export function generateImage(partialPrompt: string) {
 				}
 
 				if (artifact.text) {
-					return reject(artifact.text);
+					return reject(`${artifact.finishReason}: ${artifact.text}`);
 				}
 			}
 		});
