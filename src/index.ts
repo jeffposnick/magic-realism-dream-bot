@@ -17,7 +17,7 @@ try {
 			latestTweet.full_text!,
 		);
 		log.info(`Generated image from prompt: ${prompt}.`);
-		await sendTweet(imageBuffer, mimeType, latestTweet.id_str, prompt);
+		await sendTweet(imageBuffer, mimeType, latestTweet, prompt);
 		log.info(`Posted tweet.`);
 	} else {
 		log.info(`Latest tweet has already been processed.`);

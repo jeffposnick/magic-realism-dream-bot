@@ -1,10 +1,9 @@
-import {TwitterApi} from 'twitter-api-v2';
+import {TweetV1, TwitterApi} from 'twitter-api-v2';
 import * as dotenv from 'dotenv';
 
-dotenv.config();
+import {MAGICAL_REALISM_TWITTER_ID, TWEET_URL_PREFIX} from './constants';
 
-const MAGICAL_REALISM_TWITTER_ID = '3701125272';
-const TWEET_URL_PREFIX = 'https://twitter.com/MagicRealismBot/status/';
+dotenv.config();
 
 const client = new TwitterApi({
 	accessSecret: process.env.TWITTER_ACCESS_SECRET!,
@@ -13,15 +12,16 @@ const client = new TwitterApi({
 	appSecret: process.env.TWITTER_APP_SECRET!,
 }).readWrite;
 
-function tweetIdToURL(id: string) {
-	return TWEET_URL_PREFIX + id;
+function tweetToURL(tweet: TweetV1) {
+	const user = tweet.user.screen_name;
+	return `${TWEET_URL_PREFIX}${user}/status/${tweet.id_str}`;
 }
 
 export async function getTweetIfNew() {
 	const [latestMagicalRealismTweet] = await client.v1.userTimeline(
 		MAGICAL_REALISM_TWITTER_ID,
 	);
-	const magicalRealismTweetURL = tweetIdToURL(latestMagicalRealismTweet.id_str);
+	const magicalRealismTweetURL = tweetToURL(latestMagicalRealismTweet);
 
 	const bot = await client.currentUser();
 	const [latestBotTweet] = await client.v1.userTimeline(bot.id_str);
@@ -40,12 +40,12 @@ export async function getTweetIfNew() {
 export async function sendTweet(
 	imageBuffer: Buffer,
 	mimeType: string,
-	tweetId: string,
+	tweet: TweetV1,
 	prompt: string,
 ) {
 	const mediaId = await client.v1.uploadMedia(imageBuffer, {mimeType});
 	await client.v1.createMediaMetadata(mediaId, {alt_text: {text: prompt}});
-	await client.v1.tweet(tweetIdToURL(tweetId), {
+	await client.v1.tweet(tweetToURL(tweet), {
 		media_ids: mediaId,
 	});
 }

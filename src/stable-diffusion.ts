@@ -3,24 +3,23 @@ import {ProtoGrpcType} from '../proto/generation';
 import {randomUUID} from 'crypto';
 import * as dotenv from 'dotenv';
 import grpc from '@grpc/grpc-js';
+import path from 'path';
 import protoLoader from '@grpc/proto-loader';
+import {
+	ADDRESS,
+	CFG_SCALE,
+	DIFFUSION,
+	ENGINE_ID,
+	HEIGHT,
+	MAX_RANDOM_SEED,
+	SAMPLES,
+	SCALED_STEP,
+	STEPS,
+	STYLES,
+	WIDTH,
+} from './constants';
 
 dotenv.config();
-
-const ADDRESS = 'grpc.stability.ai:443';
-const HEIGHT = 512;
-const MAX_RANDOM_SEED = 4294967295;
-const PROTO_FILE = './proto/generation.proto';
-const STYLES = [
-	'Futurism',
-	'Latin American folk art',
-	'Man Ray',
-	'New Objectivist',
-	'Outsider art',
-	'Salvador Dali',
-	'Soviet Futurism',
-];
-const WIDTH = 512;
 
 interface GenerateImageReturn {
 	imageBuffer: Buffer;
@@ -35,13 +34,16 @@ function generateFullPrompt(prompt: string) {
 }
 
 function getServiceClient() {
-	const packageDefinition = protoLoader.loadSync(PROTO_FILE, {
-		keepCase: false,
-		longs: String,
-		enums: String,
-		defaults: true,
-		oneofs: true,
-	});
+	const packageDefinition = protoLoader.loadSync(
+		path.join('proto', 'generation.proto'),
+		{
+			keepCase: false,
+			longs: String,
+			enums: String,
+			defaults: true,
+			oneofs: true,
+		},
+	);
 
 	const pkg = grpc.loadPackageDefinition(
 		packageDefinition,
@@ -74,14 +76,14 @@ export function generateImage(partialPrompt: string) {
 		classifier: {},
 		image: {
 			height: HEIGHT,
-			parameters: [{scaledStep: 0, sampler: {cfgScale: 7.0}}],
-			samples: 1,
+			parameters: [{scaledStep: SCALED_STEP, sampler: {cfgScale: CFG_SCALE}}],
+			samples: SAMPLES,
 			seed: [Math.floor(Math.random() * MAX_RANDOM_SEED)],
-			steps: 50,
-			transform: {diffusion: 'SAMPLER_K_LMS'},
+			steps: STEPS,
+			transform: {diffusion: DIFFUSION},
 			width: WIDTH,
 		},
-		engineId: 'stable-diffusion-v1',
+		engineId: ENGINE_ID,
 		prompt: [{text: prompt}],
 		requestId: randomUUID(),
 	});
