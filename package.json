@@ -39,5 +39,8 @@
     "tweet": "tsm src/index.ts"
   },
   "type": "module",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "volta": {
+    "node": "16.17.0"
+  }
 }
