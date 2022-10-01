@@ -16,6 +16,9 @@ export const STYLES = [
 	'Outsider art',
 	'Salvador Dali',
 	'Soviet Futurism',
+	'medieval mosaic',
+	'detailed watercolor',
+	'film noir',
 ];
 export const TWEET_URL_PREFIX = 'https://twitter.com/';
 export const WIDTH = 512;
