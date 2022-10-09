@@ -10,15 +10,15 @@ log.enableAll();
 
 log.info(`Starting up...`);
 try {
-	const latestTweet = await getTweetIfNew();
+	const [latestTweet, botId] = await getTweetIfNew();
 	if (latestTweet) {
 		log.info(`Latest tweet: ${latestTweet.full_text}`);
 		const {imageBuffer, mimeType, prompt} = await generateImage(
 			latestTweet.full_text!,
 		);
 		log.info(`Generated image from prompt: ${prompt}.`);
-		await sendTweet(imageBuffer, mimeType, latestTweet, prompt);
-		log.info(`Posted tweet.`);
+		await sendTweet(imageBuffer, mimeType, latestTweet, prompt, botId);
+		log.info(`Posted and retweeted the response.`);
 	} else {
 		log.info(`Latest tweet has already been processed.`);
 	}

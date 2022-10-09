@@ -21,7 +21,7 @@ function tweetToURL(tweet: TweetV1) {
 	return `${TWEET_URL_PREFIX}${user}/status/${tweet.id_str}`;
 }
 
-export async function getTweetIfNew() {
+export async function getTweetIfNew(): Promise<[TweetV1 | null, string]> {
 	const [latestMagicalRealismTweet] = await client.v1.userTimeline(
 		MAGICAL_REALISM_TWITTER_ID,
 	);
@@ -34,11 +34,11 @@ export async function getTweetIfNew() {
 	if (urls?.length) {
 		const latestBotTweetReferenceURL = urls[0].expanded_url;
 		if (latestBotTweetReferenceURL === magicalRealismTweetURL) {
-			return null;
+			return [null, bot.id_str];
 		}
 	}
 
-	return latestMagicalRealismTweet;
+	return [latestMagicalRealismTweet, bot.id_str];
 }
 
 export async function sendTweet(
@@ -46,16 +46,14 @@ export async function sendTweet(
 	mimeType: string,
 	tweet: TweetV1,
 	prompt: string,
+	botId: string,
 ) {
 	const mediaId = await client.v1.uploadMedia(imageBuffer, {mimeType});
 	await client.v1.createMediaMetadata(mediaId, {alt_text: {text: prompt}});
 	const hashTags = HASH_TAGS.map((tag) => '#' + tag).join(' ');
-	// Post a new top-level tweet that quotes the original tweet.
-	await client.v1.tweet(hashTags + '\n' + tweetToURL(tweet), {
+	// Respond to the original tweet.
+	const newTweet = await client.v1.reply(hashTags, tweet.id_str, {
 		media_ids: mediaId,
 	});
-	// Also, respond to the original tweet.
-	await client.v1.reply(hashTags, tweet.id_str, {
-		media_ids: mediaId,
-	});
+	await client.v2.retweet(botId, newTweet.id_str);
 }
