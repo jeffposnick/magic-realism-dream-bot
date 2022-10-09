@@ -1,7 +1,11 @@
 import {TweetV1, TwitterApi} from 'twitter-api-v2';
 import * as dotenv from 'dotenv';
 
-import {MAGICAL_REALISM_TWITTER_ID, TWEET_URL_PREFIX} from './constants';
+import {
+	HASH_TAGS,
+	MAGICAL_REALISM_TWITTER_ID,
+	TWEET_URL_PREFIX,
+} from './constants';
 
 dotenv.config();
 
@@ -45,7 +49,9 @@ export async function sendTweet(
 ) {
 	const mediaId = await client.v1.uploadMedia(imageBuffer, {mimeType});
 	await client.v1.createMediaMetadata(mediaId, {alt_text: {text: prompt}});
-	await client.v1.tweet(tweetToURL(tweet), {
+	const status =
+		HASH_TAGS.map((tag) => '#' + tag).join(' ') + '\n\n' + tweetToURL(tweet);
+	await client.v1.tweet(status, {
 		media_ids: mediaId,
 	});
 }
