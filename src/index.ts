@@ -1,28 +1,28 @@
-import log from 'loglevel';
-import prefix from 'loglevel-plugin-prefix';
-
 import {getTweetIfNew, sendTweet} from './twitter';
 import {generateImage} from './stable-diffusion';
 
-prefix.reg(log);
-prefix.apply(log);
-log.enableAll();
+function log(...messages: Array<unknown>) {
+	const time = new Date().toLocaleTimeString('en-US', {
+		timeZone: 'America/New_York',
+	});
+	console.log(`[${time}]`, ...messages);
+}
 
-log.info(`Starting up...`);
+log(`Starting up...`);
 try {
 	const [latestTweet, botId] = await getTweetIfNew();
 	if (latestTweet) {
-		log.info(`Latest tweet: ${latestTweet.full_text}`);
+		log(`Latest tweet: ${latestTweet.full_text}`);
 		const {imageBuffer, mimeType, prompt} = await generateImage(
 			latestTweet.full_text!,
 		);
-		log.info(`Generated image from prompt: ${prompt}.`);
+		log(`Generated image from prompt: ${prompt}.`);
 		await sendTweet(imageBuffer, mimeType, latestTweet, prompt, botId);
-		log.info(`Posted and retweeted the response.`);
+		log(`Posted and retweeted the response.`);
 	} else {
-		log.info(`Latest tweet has already been processed.`);
+		log(`Latest tweet has already been processed.`);
 	}
 } catch (err: unknown) {
-	log.error(err);
+	log(err);
 }
-log.info(`...all done.`);
+log(`...all done.`);
