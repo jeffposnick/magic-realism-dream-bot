@@ -49,9 +49,13 @@ export async function sendTweet(
 ) {
 	const mediaId = await client.v1.uploadMedia(imageBuffer, {mimeType});
 	await client.v1.createMediaMetadata(mediaId, {alt_text: {text: prompt}});
-	const status =
-		HASH_TAGS.map((tag) => '#' + tag).join(' ') + '\n\n' + tweetToURL(tweet);
-	await client.v1.tweet(status, {
+	const hashTags = HASH_TAGS.map((tag) => '#' + tag).join(' ');
+	// Post a new top-level tweet that quotes the original tweet.
+	await client.v1.tweet(hashTags + '\n' + tweetToURL(tweet), {
+		media_ids: mediaId,
+	});
+	// Also, respond to the original tweet.
+	await client.v1.reply(hashTags, tweet.id_str, {
 		media_ids: mediaId,
 	});
 }
