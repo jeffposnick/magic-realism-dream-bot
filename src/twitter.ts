@@ -25,17 +25,17 @@ export async function getTweetIfNew(): Promise<[TweetV1 | null, string]> {
 	const [latestMagicalRealismTweet] = await client.v1.userTimeline(
 		MAGICAL_REALISM_TWITTER_ID,
 	);
-	const magicalRealismTweetURL = tweetToURL(latestMagicalRealismTweet);
 
 	const bot = await client.currentUser();
-	const [latestBotTweet] = await client.v1.userTimeline(bot.id_str);
-	const urls = latestBotTweet.entities?.urls;
+	const [latestBotTweet] = await client.v1.userTimeline(bot.id_str, {
+		exclude_replies: false,
+	});
 
-	if (urls?.length) {
-		const latestBotTweetReferenceURL = urls[0].expanded_url;
-		if (latestBotTweetReferenceURL === magicalRealismTweetURL) {
-			return [null, bot.id_str];
-		}
+	if (
+		latestBotTweet.retweeted_status?.in_reply_to_status_id ===
+		latestMagicalRealismTweet.id
+	) {
+		return [null, bot.id_str];
 	}
 
 	return [latestMagicalRealismTweet, bot.id_str];
@@ -55,5 +55,6 @@ export async function sendTweet(
 	const newTweet = await client.v1.reply(hashTags, tweet.id_str, {
 		media_ids: mediaId,
 	});
+	// Also, retweet it.
 	await client.v2.retweet(botId, newTweet.id_str);
 }
