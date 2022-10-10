@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 import {
 	HASH_TAGS,
 	MAGICAL_REALISM_TWITTER_ID,
+	RETWEET_DELAY_MS,
 	TWEET_URL_PREFIX,
 } from './constants';
 
@@ -55,6 +56,8 @@ export async function sendTweet(
 	const newTweet = await client.v1.reply(hashTags, tweet.id_str, {
 		media_ids: mediaId,
 	});
+	// It can take a few seconds for the new tweet to be RT-able.
+	await new Promise((resolve) => setTimeout(resolve, RETWEET_DELAY_MS));
 	// Also, retweet it.
 	await client.v2.retweet(botId, newTweet.id_str);
 }
