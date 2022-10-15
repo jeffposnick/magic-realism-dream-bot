@@ -22,5 +22,4 @@ export const STYLES = [
 	'detailed watercolor',
 	'neo-realist',
 ];
-export const TWEET_URL_PREFIX = 'https://twitter.com/';
 export const WIDTH = 512;

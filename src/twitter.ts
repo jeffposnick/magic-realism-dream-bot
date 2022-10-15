@@ -5,7 +5,6 @@ import {
 	HASH_TAGS,
 	MAGICAL_REALISM_TWITTER_ID,
 	RETWEET_DELAY_MS,
-	TWEET_URL_PREFIX,
 } from './constants';
 
 dotenv.config();
@@ -16,11 +15,6 @@ const client = new TwitterApi({
 	appKey: process.env.TWITTER_APP_KEY!,
 	appSecret: process.env.TWITTER_APP_SECRET!,
 }).readWrite;
-
-function tweetToURL(tweet: TweetV1) {
-	const user = tweet.user.screen_name;
-	return `${TWEET_URL_PREFIX}${user}/status/${tweet.id_str}`;
-}
 
 export async function getTweetIfNew(): Promise<[TweetV1 | null, string]> {
 	const [latestMagicalRealismTweet] = await client.v1.userTimeline(

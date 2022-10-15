@@ -22,8 +22,8 @@ try {
 	} else {
 		log(`Latest tweet has already been processed.`);
 	}
+	log(`...all done.`);
 } catch (err: unknown) {
 	log(err);
 	throw err;
 }
-log(`...all done.`);
