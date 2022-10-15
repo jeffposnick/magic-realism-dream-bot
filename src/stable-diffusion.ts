@@ -73,7 +73,6 @@ export function generateImage(partialPrompt: string) {
 	const prompt = generateFullPrompt(partialPrompt);
 
 	const stream = serviceClient.generate({
-		classifier: {},
 		image: {
 			height: HEIGHT,
 			parameters: [{scaledStep: SCALED_STEP, sampler: {cfgScale: CFG_SCALE}}],

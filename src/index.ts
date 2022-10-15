@@ -24,5 +24,6 @@ try {
 	}
 } catch (err: unknown) {
 	log(err);
+	throw err;
 }
 log(`...all done.`);
