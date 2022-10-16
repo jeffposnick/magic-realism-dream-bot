@@ -8,8 +8,8 @@ function log(...messages: Array<unknown>) {
 	console.log(`[${time}]`, ...messages);
 }
 
-log(`Starting up...`);
-try {
+async function main() {
+	log(`Starting up...`);
 	const [latestTweet, botId] = await getTweetIfNew();
 	if (latestTweet) {
 		log(`Latest tweet: ${latestTweet.full_text}`);
@@ -23,7 +23,6 @@ try {
 		log(`Latest tweet has already been processed.`);
 	}
 	log(`...all done.`);
-} catch (err: unknown) {
-	log(err);
-	throw err;
 }
+
+main().catch((err) => log(err));
